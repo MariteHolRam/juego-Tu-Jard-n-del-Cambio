@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌱 Cultivando la Vida: El Juego del Cambio en la Diabetes</title>
+    <!-- Google Fonts: Outfit (títulos) e Inter (cuerpo) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Partículas ambientales flotantes en segundo plano -->
+    <div id="particle-container"></div>
+
+    <div class="app-container">
+        <!-- Encabezado Principal -->
+        <header class="app-header">
+            <div class="header-logo">
+                <span class="logo-emoji">🌱</span>
+                <div class="logo-text">
+                    <h1>Cultivando la Vida</h1>
+                    <p>El Juego del Cambio y del Cuidado en la Diabetes</p>
+                </div>
+            </div>
+            <nav class="app-nav">
+                <button class="nav-btn active" data-tab="menu">🎮 Menú</button>
+                <button class="nav-btn" data-tab="learn">📖 Enciclopedia</button>
+                <button class="nav-btn" data-tab="story">💬 Historia de Don Pepe</button>
+                <button class="nav-btn" data-tab="harvest">🍎 Cosecha de Hábitos</button>
+            </nav>
+        </header>
+
+        <!-- Contenedor del Juego Dividido (Split Screen) -->
+        <main class="game-layout">
+            
+            <!-- PANEL IZQUIERDO: EL JARDÍN DINÁMICO (SVG) -->
+            <section class="garden-panel card">
+                <div class="panel-header">
+                    <h2>🌳 Tu Jardín del Cambio</h2>
+                    <div class="hud-stats">
+                        <div class="stat-badge tooltip" title="Puntos de Empatía ganados en el Modo Historia">
+                            <span class="stat-emoji">❤️</span>
+                            <span class="stat-label">Empatía:</span>
+                            <span id="stat-empathy" class="stat-val">0</span>
+                        </div>
+                        <div class="stat-badge tooltip" title="Nutrientes ganados en el juego de Cosecha para regar tu jardín">
+                            <span class="stat-emoji">🧪</span>
+                            <span class="stat-label">Nutrientes:</span>
+                            <span id="stat-nutrients" class="stat-val">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="garden-view-container">
+                    <!-- Efectos de Clima / Animación -->
+                    <div id="weather-effect" class="weather-normal"></div>
+                    <div id="wind-leaves-container"></div>
+                    
+                    <!-- SVG dinámico que contiene todas las fases dibujadas con vectores de alta fidelidad -->
+                    <svg id="garden-svg" viewBox="0 0 800 600" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <!-- Degradados de Cielo -->
+                            <linearGradient id="sky-precontemplation" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#111827"/>
+                                <stop offset="100%" stop-color="#374151"/>
+                            </linearGradient>
+                            <linearGradient id="sky-contemplation" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#1e293b"/>
+                                <stop offset="70%" stop-color="#475569"/>
+                                <stop offset="100%" stop-color="#f59e0b" stop-opacity="0.3"/>
+                            </linearGradient>
+                            <linearGradient id="sky-preparation" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#bae6fd"/>
+                                <stop offset="100%" stop-color="#fef08a"/>
+                            </linearGradient>
+                            <linearGradient id="sky-action" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#7dd3fc"/>
+                                <stop offset="100%" stop-color="#bae6fd"/>
+                            </linearGradient>
+                            <linearGradient id="sky-maintenance" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#38bdf8"/>
+                                <stop offset="100%" stop-color="#7dd3fc"/>
+                            </linearGradient>
+                            <linearGradient id="sky-relapse" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#4b5563"/>
+                                <stop offset="60%" stop-color="#6b7280"/>
+                                <stop offset="100%" stop-color="#4b5563"/>
+                            </linearGradient>
+                            <linearGradient id="sky-empowerment" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#e0f2fe"/>
+                                <stop offset="50%" stop-color="#fef08a"/>
+                                <stop offset="100%" stop-color="#bae6fd"/>
+                            </linearGradient>
+
+                            <!-- Degradado de Tierra y Colinas -->
+                            <linearGradient id="dirt-gradient" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#78350f"/>
+                                <stop offset="100%" stop-color="#451a03"/>
+                            </linearGradient>
+                            <linearGradient id="grass-gradient" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#4ade80"/>
+                                <stop offset="100%" stop-color="#15803d"/>
+                            </linearGradient>
+                            <linearGradient id="trunk-gradient" x1="0" y1="0" x2="1" y2="0">
+                                <stop offset="0%" stop-color="#78350f"/>
+                                <stop offset="50%" stop-color="#92400e"/>
+                                <stop offset="100%" stop-color="#78350f"/>
+                            </linearGradient>
+
+                            <!-- Sombra de Colinas -->
+                            <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+                                <feDropShadow dx="0" dy="8" stdDeviation="6" flood-opacity="0.15"/>
+                            </filter>
+                        </defs>
+
+                        <!-- Fondo del Cielo (Cambiable dinámicamente) -->
+                        <rect id="sky-bg" width="800" height="420" fill="url(#sky-action)" transition="fill 0.8s ease"/>
+
+                        <!-- Sol / Luna / Haz de Luz -->
+                        <g id="sky-elements">
+                            <!-- Haz de luz de Contemplación -->
+                            <polygon id="contemplation-ray" points="400,0 200,450 600,450" fill="url(#sky-contemplation)" opacity="0" transition="opacity 0.8s"/>
+                            <!-- Sol brillante -->
+                            <circle id="sun" cx="700" cy="80" r="45" fill="#fef08a" filter="url(#shadow)"/>
+                            <circle id="sun-glow" cx="700" cy="80" r="60" fill="#fef08a" opacity="0.3" class="pulse-animation"/>
+                        </g>
+
+                        <!-- Nube de tormenta (Para Recaída) -->
+                        <g id="storm-cloud" opacity="0" transition="opacity 0.8s, transform 0.8s">
+                            <path d="M 320,80 C 300,80 280,100 280,120 C 260,120 240,140 240,165 C 240,190 260,210 285,210 L 515,210 C 540,210 560,190 560,165 C 560,140 540,120 520,120 C 520,100 500,80 480,80 C 460,80 445,95 440,100 C 430,85 410,80 390,80 C 370,80 355,95 350,100 C 340,85 330,80 320,80 Z" fill="#4b5563"/>
+                        </g>
+
+                        <!-- Colinas de Pasto -->
+                        <path d="M -50,420 Q 200,320 450,380 T 850,340 L 850,450 L -50,450 Z" fill="url(#grass-gradient)" filter="url(#shadow)"/>
+                        <path d="M -50,380 Q 250,440 500,360 T 850,400 L 850,450 L -50,450 Z" fill="#166534" opacity="0.4"/>
+
+                        <!-- Capa de Tierra Profunda (Para Precontemplación / Semilla) -->
+                        <rect x="0" y="440" width="800" height="160" fill="url(#dirt-gradient)"/>
+                        <path d="M 0,440 Q 400,430 800,440 L 800,450 L 0,450 Z" fill="#451a03"/>
+
+                        <!-- ELEMENTOS DEL JARDÍN (SE ACTIVAN SEGÚN LA ETAPA) -->
+                        
+                        <!-- 1. La Semilla Durmiente (Precontemplación) -->
+                        <g id="element-seed" opacity="0" transition="opacity 0.6s">
+                            <!-- Agujero en la tierra -->
+                            <ellipse cx="400" cy="510" rx="35" ry="15" fill="#290f02"/>
+                            <!-- Semilla de manzana -->
+                            <path d="M 400,498 C 412,498 418,512 400,522 C 382,512 388,498 400,498 Z" fill="#b45309" stroke="#78350f" stroke-width="2"/>
+                            <!-- Brillo sutil de vida durmiente -->
+                            <circle cx="400" cy="510" r="18" fill="#f59e0b" opacity="0.1" class="pulse-animation"/>
+                        </g>
+
+                        <!-- 2. Semilla Hinchada y Raíces iniciales (Contemplación) -->
+                        <g id="element-rooting" opacity="0" transition="opacity 0.6s">
+                            <ellipse cx="400" cy="510" rx="40" ry="18" fill="#290f02"/>
+                            <!-- Semilla agrietada -->
+                            <path d="M 390,505 Q 380,520 400,522 Q 410,515 410,505 Z" fill="#b45309"/>
+                            <!-- Pequeño brote blanco que empieza a salir hacia abajo -->
+                            <path d="M 400,510 Q 395,530 405,545" fill="none" stroke="#fef08a" stroke-width="3" stroke-linecap="round"/>
+                            <path d="M 400,510 Q 408,528 392,538" fill="none" stroke="#fef08a" stroke-width="2.5" stroke-linecap="round"/>
+                            <!-- Primer destello de sol en la superficie -->
+                            <path d="M 400,430 L 400,400 M 380,415 L 360,405 M 420,415 L 440,405" stroke="#fef08a" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+                        </g>
+
+                        <!-- 3. Herramientas de Jardinería (Preparación) -->
+                        <g id="element-tools" opacity="0" transition="opacity 0.6s, transform 0.6s">
+                            <!-- Cesta de madera -->
+                            <path d="M 180,400 L 240,400 L 230,440 L 190,440 Z" fill="#d97706" stroke="#92400e" stroke-width="2"/>
+                            <path d="M 180,400 Q 210,370 240,400" fill="none" stroke="#92400e" stroke-width="3"/>
+                            <!-- Rastrillo y Pala apoyados -->
+                            <path d="M 160,370 L 175,435" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
+                            <path d="M 150,370 L 170,370 M 150,375 L 170,375" stroke="#475569" stroke-width="3"/>
+                            <path d="M 260,375 L 245,435" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
+                            <polygon points="260,370 270,380 255,385 250,375" fill="#475569"/>
+                            <!-- Regadera verde -->
+                            <path d="M 115,405 L 140,405 L 135,430 L 110,430 Z" fill="#16a34a"/>
+                            <path d="M 110,410 Q 95,410 100,425 Q 105,430 112,425" fill="none" stroke="#16a34a" stroke-width="3"/>
+                            <path d="M 140,410 L 155,398" stroke="#16a34a" stroke-width="4"/>
+                        </g>
+
+                        <!-- 4. El Primer Brote (Acción) -->
+                        <g id="element-sprout" opacity="0" transition="opacity 0.6s">
+                            <!-- Tallo principal -->
+                            <path d="M 400,445 Q 395,410 405,370" fill="none" stroke="#4ade80" stroke-width="6" stroke-linecap="round"/>
+                            <!-- Hoja izquierda -->
+                            <path d="M 398,400 Q 370,390 380,375 Q 395,385 399,400 Z" fill="#22c55e" stroke="#15803d" stroke-width="1.5"/>
+                            <!-- Hoja derecha -->
+                            <path d="M 402,385 Q 430,375 420,360 Q 405,370 402,385 Z" fill="#22c55e" stroke="#15803d" stroke-width="1.5"/>
+                            <!-- Pequeñas gotas de agua de riego -->
+                            <g class="watering-drops" opacity="0">
+                                <circle cx="390" cy="340" r="3" fill="#38bdf8"/>
+                                <circle cx="410" cy="335" r="4" fill="#38bdf8"/>
+                                <circle cx="400" cy="320" r="3" fill="#38bdf8"/>
+                            </g>
+                        </g>
+
+                        <!-- 5. El Gran Árbol Frutal (Mantenimiento) -->
+                        <g id="element-tree" opacity="0" transition="opacity 0.8s, transform 0.8s">
+                            <!-- Raíces visibles extendidas -->
+                            <path d="M 400,440 Q 370,460 340,490 M 400,440 Q 400,470 410,500 M 400,440 Q 430,460 465,485" fill="none" stroke="url(#trunk-gradient)" stroke-width="7" stroke-linecap="round"/>
+                            <!-- Tronco robusto -->
+                            <path d="M 380,440 L 390,300 Q 370,250 350,220 M 420,440 L 410,300 Q 430,250 450,220 L 400,300 Z" fill="url(#trunk-gradient)"/>
+                            
+                            <!-- Follaje verde denso (Círculos superpuestos para profundidad) -->
+                            <g id="tree-leaves">
+                                <circle cx="350" cy="200" r="65" fill="#15803d"/>
+                                <circle cx="450" cy="200" r="65" fill="#16a34a"/>
+                                <circle cx="400" cy="150" r="75" fill="#22c55e"/>
+                                <circle cx="370" cy="170" r="55" fill="#4ade80" opacity="0.8"/>
+                                <circle cx="430" cy="170" r="55" fill="#4ade80" opacity="0.8"/>
+                            </g>
+                            
+                            <!-- Manzanas deliciosas (Los frutos de los hábitos) -->
+                            <g id="tree-apples">
+                                <!-- Manzana 1 -->
+                                <circle cx="330" cy="180" r="10" fill="#ef4444"/>
+                                <path d="M 330,170 Q 332,165 335,168" fill="none" stroke="#78350f" stroke-width="1.5"/>
+                                <!-- Manzana 2 -->
+                                <circle cx="470" cy="190" r="10" fill="#ef4444"/>
+                                <path d="M 470,180 Q 472,175 475,178" fill="none" stroke="#78350f" stroke-width="1.5"/>
+                                <!-- Manzana 3 -->
+                                <circle cx="400" cy="130" r="10" fill="#ef4444"/>
+                                <path d="M 400,120 Q 402,115 405,118" fill="none" stroke="#78350f" stroke-width="1.5"/>
+                                <!-- Manzana 4 -->
+                                <circle cx="380" cy="210" r="10" fill="#ef4444"/>
+                                <path d="M 380,200 Q 382,195 385,198" fill="none" stroke="#78350f" stroke-width="1.5"/>
+                                <!-- Manzana 5 (Amarilla de variedad) -->
+                                <circle cx="435" cy="150" r="10" fill="#facc15"/>
+                                <path d="M 435,140 Q 437,135 440,138" fill="none" stroke="#78350f" stroke-width="1.5"/>
+                            </g>
+                        </g>
+
+                        <!-- 6. Árbol Otoñal y Fuertes Raíces Resplandecientes (Recaída con Aprendizaje) -->
+                        <g id="element-autumn" opacity="0" transition="opacity 0.8s">
+                            <!-- Tronco de otoño -->
+                            <path d="M 380,440 L 390,300 Q 370,250 350,220 M 420,440 L 410,300 Q 430,250 450,220 L 400,300 Z" fill="url(#trunk-gradient)"/>
+                            
+                            <!-- Follaje otoñal menos denso -->
+                            <g id="autumn-leaves">
+                                <circle cx="350" cy="200" r="60" fill="#b45309" opacity="0.9"/>
+                                <circle cx="450" cy="200" r="60" fill="#d97706" opacity="0.9"/>
+                                <circle cx="400" cy="150" r="70" fill="#ea580c" opacity="0.9"/>
+                            </g>
+
+                            <!-- Hojas cayendo -->
+                            <g class="falling-leaves">
+                                <path d="M 320,250 C 315,260 325,270 315,280" fill="none" stroke="#ea580c" stroke-width="4" stroke-linecap="round" class="wind-sway"/>
+                                <path d="M 480,240 C 475,255 485,265 478,280" fill="none" stroke="#d97706" stroke-width="4" stroke-linecap="round" class="wind-sway"/>
+                                <path d="M 390,270 C 385,285 395,295 388,310" fill="none" stroke="#b45309" stroke-width="4" stroke-linecap="round" class="wind-sway"/>
+                            </g>
+
+                            <!-- Frutos en el suelo (Las manzanas cayeron pero están ahí para abono/aprendizaje) -->
+                            <circle cx="360" cy="430" r="8" fill="#dc2626"/>
+                            <circle cx="440" cy="425" r="8" fill="#dc2626"/>
+                            <circle cx="410" cy="438" r="8" fill="#b45309" opacity="0.8"/>
+
+                            <!-- RAÍCES DORADAS RESPLANDECIENTES (El conocimiento acumulado que no se pierde) -->
+                            <g id="golden-roots" class="glow-animation">
+                                <path d="M 400,440 Q 370,460 330,495 M 400,440 Q 400,470 410,510 M 400,440 Q 430,460 470,490" fill="none" stroke="#fef08a" stroke-width="6" stroke-linecap="round" filter="url(#shadow)"/>
+                                <path d="M 330,495 Q 310,510 290,530 M 410,510 Q 420,535 430,555 M 470,490 Q 495,510 520,525" fill="none" stroke="#facc15" stroke-width="4.5" stroke-linecap="round"/>
+                            </g>
+                        </g>
+
+                        <!-- 7. El Objetivo Final: Empoderamiento Familiar (Árbol Dorado Celestial) -->
+                        <g id="element-empowerment" opacity="0" transition="opacity 0.8s">
+                            <!-- Tronco de árbol sagrado dorado -->
+                            <path d="M 380,440 L 390,300 Q 370,250 350,220 M 420,440 L 410,300 Q 430,250 450,220 L 400,300 Z" fill="#d97706" stroke="#facc15" stroke-width="2"/>
+                            <!-- Follaje mágico brillante -->
+                            <g>
+                                <circle cx="350" cy="200" r="70" fill="#facc15" opacity="0.8"/>
+                                <circle cx="450" cy="200" r="70" fill="#facc15" opacity="0.8"/>
+                                <circle cx="400" cy="150" r="85" fill="#fef08a" opacity="0.9" class="pulse-animation"/>
+                            </g>
+                            <!-- Destellos dorados flotantes -->
+                            <g class="sparkles">
+                                <circle cx="310" cy="120" r="4" fill="#fff"/>
+                                <circle cx="490" cy="110" r="5" fill="#fff"/>
+                                <circle cx="400" cy="80" r="3" fill="#fff"/>
+                                <circle cx="360" cy="160" r="5" fill="#fff"/>
+                                <circle cx="440" cy="160" r="4" fill="#fff"/>
+                            </g>
+                            <!-- Siluetas de la familia tomados de la mano debajo del árbol (Vectores Simples) -->
+                            <g id="family-vector" transform="translate(290, 390)">
+                                <!-- Persona 1 (Paciente) -->
+                                <circle cx="80" cy="15" r="10" fill="#3b82f6"/>
+                                <path d="M 80,25 Q 80,50 80,60 M 80,30 L 65,45 M 80,30 L 95,45 M 80,60 L 70,80 M 80,60 L 90,80" stroke="#3b82f6" stroke-width="4" stroke-linecap="round"/>
+                                
+                                <!-- Persona 2 (Familiar que apoya) -->
+                                <circle cx="120" cy="10" r="9" fill="#ec4899"/>
+                                <path d="M 120,19 Q 120,45 120,55 M 120,24 L 105,39 M 120,24 L 135,39 M 120,55 L 112,75 M 120,55 L 128,75" stroke="#ec4899" stroke-width="4" stroke-linecap="round"/>
+
+                                <!-- Manos enlazadas (Líneas de conexión) -->
+                                <path d="M 95,45 Q 100,43 105,39" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+                            </g>
+                        </g>
+
+                    </svg>
+
+                    <!-- Letrero de la Etapa Actual en el Jardín -->
+                    <div class="stage-banner">
+                        <span id="current-stage-num">Etapa 1/6</span>
+                        <h3 id="current-stage-title">Cargando Jardín...</h3>
+                    </div>
+                </div>
+
+                <!-- Control de sonido flotante -->
+                <div class="audio-control">
+                    <button id="btn-toggle-sound" class="btn-round tooltip" title="Activar/Desactivar efectos de sonido realistas sintetizados">
+                        🔊 Sound: ON
+                    </button>
+                </div>
+            </section>
+
+            <!-- PANEL DERECHO: INTERFAZ DINÁMICA (CONTROL/PANTALLAS) -->
+            <section class="control-panel card">
+                
+                <!-- PANTALLA 1: MENÚ DE INICIO -->
+                <div id="screen-menu" class="game-screen active">
+                    <div class="welcome-container">
+                        <span class="welcome-emoji">🏡</span>
+                        <h2>¡Bienvenido al Jardín de tu Salud!</h2>
+                        <p class="welcome-desc">
+                            ¿Sabías que cambiar hábitos para la diabetes es un proceso psicológico profundo? 
+                            Este juego interactivo, diseñado por expertos en psicología, diabetes y educación, te enseñará a comprender y apoyar el cambio sin juzgar, utilizando la metáfora de un hermoso jardín.
+                        </p>
+                    </div>
+
+                    <div class="menu-modes-grid">
+                        <div class="mode-card" data-target="learn">
+                            <span class="mode-emoji">📖</span>
+                            <h3>Enciclopedia del Jardín</h3>
+                            <p>Explora a tu ritmo las 6 etapas del cambio, sus características en la diabetes y los consejos clave de apoyo familiar.</p>
+                            <button class="btn btn-secondary">Explorar Etapas</button>
+                        </div>
+                        <div class="mode-card highlight" data-target="story">
+                            <span class="mode-emoji">💬</span>
+                            <h3>El Camino de Don Pepe</h3>
+                            <p>¡Modo Historia! Ayuda a Don Pepe a cuidar su diabetes tomando decisiones empáticas. ¿Lograrás que su jardín florezca?</p>
+                            <button class="btn btn-primary">Iniciar Historia</button>
+                        </div>
+                        <div class="mode-card" data-target="harvest">
+                            <span class="mode-emoji">🍎</span>
+                            <h3>Cosecha de Hábitos</h3>
+                            <p>¡Desafío arcade interactivo! Clasifica rápidamente frases reales de diabetes en sus etapas de cambio y consigue nutrientes.</p>
+                            <button class="btn btn-secondary">Jugar Cosecha</button>
+                        </div>
+                    </div>
+
+                    <div class="academic-credits">
+                        <h4>Fidelidad Académica Basada en:</h4>
+                        <ul>
+                            <li><strong>Modelo Transteórico de Cambio:</strong> James Prochaska y Carlo DiClemente.</li>
+                            <li><strong>Psicología de la Diabetes:</strong> Enfoque de autocuidado compasivo sin culpabilización.</li>
+                            <li><strong>Metáfora Didáctica:</strong> "El Jardín de tu Salud" - Herramienta visual y de concientización.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- PANTALLA 2: ENCICLOPEDIA / APRENDIZAJE -->
+                <div id="screen-learn" class="game-screen">
+                    <div class="screen-header">
+                        <button class="back-to-menu btn-link">← Volver al menú</button>
+                        <h2>📖 Enciclopedia del Jardín de la Salud</h2>
+                        <p>Haz clic en las etapas para ver cómo se transforma el jardín y aprender sus secretos psicológicos.</p>
+                    </div>
+
+                    <!-- Selector de Etapas -->
+                    <div class="learn-stages-bar">
+                        <button class="stage-tab active" data-stage="1">1. Precontemplación</button>
+                        <button class="stage-tab" data-stage="2">2. Contemplación</button>
+                        <button class="stage-tab" data-stage="3">3. Preparación</button>
+                        <button class="stage-tab" data-stage="4">4. Acción</button>
+                        <button class="stage-tab" data-stage="5">5. Mantenimiento</button>
+                        <button class="stage-tab" data-stage="6">6. Recaída</button>
+                    </div>
+
+                    <!-- Información de la Etapa Seleccionada -->
+                    <div class="learn-info-container glass">
+                        <div class="learn-info-header">
+                            <span id="learn-emoji" class="large-emoji">🕳️</span>
+                            <div>
+                                <h3 id="learn-title">1. Precontemplación: "La Semilla Durmiente"</h3>
+                                <p id="learn-subtitle" class="text-muted">Aún no se percibe la necesidad de cambio.</p>
+                            </div>
+                        </div>
+
+                        <div class="learn-info-body">
+                            <div class="info-section">
+                                <h4>🧠 ¿Qué pasa en la mente de la persona?</h4>
+                                <p id="learn-description">En esta fase la persona no es consciente del riesgo de la diabetes o prefiere ignorarla porque le abruma. No planea hacer ningún cambio en los próximos 6 meses.</p>
+                            </div>
+
+                            <div class="info-section highlight-bg">
+                                <h4>💬 Ejemplo cotidiano (Diabetes):</h4>
+                                <p id="learn-example">"A mí no me pasa nada por comer este pastel, la diabetes se controla sola y me siento perfectamente bien".</p>
+                            </div>
+
+                            <div class="info-section green-bg">
+                                <h4>🤝 Apoyo compasivo (¿Cómo ayudar como familia o amigo?):</h4>
+                                <p id="learn-family-support">No presiones, no des sermones científicos ni regañes. Escucha con profundo amor y respeto, demuestra empatía hacia sus miedos y acompaña sin juzgar.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PANTALLA 3: MODO HISTORIA (DON PEPE) -->
+                <div id="screen-story" class="game-screen">
+                    <div class="screen-header">
+                        <button class="back-to-menu btn-link">← Volver al menú</button>
+                        <h2>💬 El Camino de Don Pepe</h2>
+                        <div class="progress-bar-container">
+                            <div class="progress-label">Confianza de Don Pepe:</div>
+                            <div class="progress-track">
+                                <div id="story-progress-bar" class="progress-fill" style="width: 0%;"></div>
+                            </div>
+                            <span id="story-stage-indicator">Etapa 1: Precontemplación</span>
+                        </div>
+                    </div>
+
+                    <!-- Escenario e Historia -->
+                    <div class="story-container">
+                        <!-- Avatar interactivo de Don Pepe -->
+                        <div class="pepe-avatar-box">
+                            <div id="pepe-avatar" class="pepe-neutral">
+                                <svg viewBox="0 0 100 100" width="90" height="90">
+                                    <!-- Cara -->
+                                    <circle cx="50" cy="50" r="35" fill="#fed7aa"/>
+                                    <!-- Cabello/Bigote gris entrañable -->
+                                    <path d="M 20,40 Q 50,15 80,40" fill="none" stroke="#cbd5e1" stroke-width="12" stroke-linecap="round"/>
+                                    <!-- Bigote -->
+                                    <path d="M 38,62 Q 50,55 62,62" fill="none" stroke="#cbd5e1" stroke-width="8" stroke-linecap="round"/>
+                                    <!-- Ojos -->
+                                    <circle cx="40" cy="45" r="4" fill="#334155"/>
+                                    <circle cx="60" cy="45" r="4" fill="#334155"/>
+                                    <!-- Cejas -->
+                                    <path d="M 33,37 Q 40,32 45,38" fill="none" stroke="#94a3b8" stroke-width="3"/>
+                                    <path d="M 67,37 Q 60,32 55,38" fill="none" stroke="#94a3b8" stroke-width="3"/>
+                                    <!-- Gafas de abuelo simpático -->
+                                    <circle cx="40" cy="46" r="10" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+                                    <circle cx="60" cy="46" r="10" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+                                    <line x1="50" y1="46" x2="50" y2="46" stroke="#f59e0b" stroke-width="3"/>
+                                    <!-- Boca (Cambia por JS) -->
+                                    <path id="pepe-mouth" d="M 45,67 Q 50,67 55,67" fill="none" stroke="#334155" stroke-width="3" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <span class="pepe-name">Don Pepe</span>
+                        </div>
+
+                        <!-- Globo de Diálogo -->
+                        <div class="speech-bubble glass">
+                            <p id="pepe-dialogue">"Hola, mijo. Me acaban de decir que tengo diabetes... pero yo me siento re bien. Esos doctores exageran, yo no necesito cambiar nada de mi comida."</p>
+                        </div>
+                    </div>
+
+                    <!-- Panel de Opciones de Decisión -->
+                    <div class="choices-container">
+                        <h3>¿Cómo decides responderle a Don Pepe?</h3>
+                        <div id="story-choices-grid" class="choices-grid">
+                            <!-- Inyectado por JS -->
+                            <button class="choice-card" data-index="0">
+                                <span class="choice-type negative">⚠️ Confrontar</span>
+                                <p>"¡Papá, estás loco! Si no dejas el refresco y el pan te van a tener que amputar un pie. ¡Tienes que entender que estás enfermo!"</p>
+                            </button>
+                            <button class="choice-card" data-index="1">
+                                <span class="choice-type indifferent">💤 Ignorar</span>
+                                <p>"Bueno, papá, tú sabrás lo que haces con tu vida. Al final es tu cuerpo y tu salud."</p>
+                            </button>
+                            <button class="choice-card" data-index="2">
+                                <span class="choice-type positive">🌱 Empatizar</span>
+                                <p>"Entiendo, papá. Debe ser muy molesto y abrumador que te digan todo esto de golpe cuando tú te sientes de maravilla. Estoy aquí para lo que necesites."</p>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Retroalimentación Pedagógica del Experto (Popup flotante en la pantalla derecha) -->
+                    <div id="story-feedback" class="feedback-panel glass hide">
+                        <div class="feedback-header">
+                            <span id="feedback-icon">❤️</span>
+                            <h3 id="feedback-title">¡Respuesta Excelente!</h3>
+                        </div>
+                        <p id="feedback-text">Has demostrado empatía profunda. En la etapa de Precontemplación, confrontar solo genera defensas. Al validar sus emociones, Don Pepe se siente seguro de hablar de su salud contigo.</p>
+                        <button id="btn-next-story" class="btn btn-primary">Avanzar en el Camino →</button>
+                    </div>
+                </div>
+
+                <!-- PANTALLA 4: COSECHA DE HÁBITOS (JUEGO ARCADE) -->
+                <div id="screen-harvest" class="game-screen">
+                    <div class="screen-header">
+                        <button class="back-to-menu btn-link">← Volver al menú</button>
+                        <h2>🍎 Minijuego: Cosecha de Hábitos</h2>
+                        <p>Lee la frase de diabetes y clasifícala rápidamente en su etapa correcta del cambio para ganar nutrientes.</p>
+                        <div class="arcade-hud">
+                            <div class="hud-item">⏱️ Tiempo: <span id="harvest-timer">45</span>s</div>
+                            <div class="hud-item">⭐ Puntos: <span id="harvest-score">0</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Área de juego interactiva -->
+                    <div id="harvest-play-area">
+                        <!-- Pantalla previa a iniciar -->
+                        <div id="harvest-start-screen" class="harvest-overlay active">
+                            <h3>¿Listo para la Cosecha?</h3>
+                            <p>Te presentaremos frases de personas reales con diabetes. Deberás presionar el botón de la etapa correspondiente antes de que se agote el tiempo de juego.</p>
+                            <button id="btn-start-harvest" class="btn btn-primary btn-large">¡Iniciar Juego! 🚀</button>
+                        </div>
+
+                        <!-- Pantalla de juego activo -->
+                        <div id="harvest-active-game" class="harvest-game-box">
+                            <div class="habit-card-box">
+                                <div class="habit-card glass">
+                                    <span class="quote-icon">“</span>
+                                    <p id="harvest-phrase">"Ya busqué recetas de comida saludable y compré un pastillero para mis medicinas. El lunes empiezo sin falta."</p>
+                                    <span class="quote-icon right">”</span>
+                                </div>
+                            </div>
+
+                            <div class="stage-buttons-grid">
+                                <button class="btn-stage-choice" data-stage="1">
+                                    <span class="btn-emoji">🕳️</span>
+                                    <span class="btn-text">1. Precontemplación</span>
+                                </button>
+                                <button class="btn-stage-choice" data-stage="2">
+                                    <span class="btn-emoji">🌤️</span>
+                                    <span class="btn-text">2. Contemplación</span>
+                                </button>
+                                <button class="btn-stage-choice" data-stage="3">
+                                    <span class="btn-emoji">🛠️</span>
+                                    <span class="btn-text">3. Preparación</span>
+                                </button>
+                                <button class="btn-stage-choice" data-stage="4">
+                                    <span class="btn-emoji">🌱</span>
+                                    <span class="btn-text">4. Acción</span>
+                                </button>
+                                <button class="btn-stage-choice" data-stage="5">
+                                    <span class="btn-emoji">🌳</span>
+                                    <span class="btn-text">5. Mantenimiento</span>
+                                </button>
+                                <button class="btn-stage-choice" data-stage="6">
+                                    <span class="btn-emoji">🍂</span>
+                                    <span class="btn-text">6. Recaída</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Pantalla de juego terminado -->
+                        <div id="harvest-gameover-screen" class="harvest-overlay">
+                            <h3>¡Cosecha Completada! 🎉</h3>
+                            <p>Has clasificado exitosamente los hábitos y recolectado valiosos nutrientes para tu jardín.</p>
+                            <div class="result-stats">
+                                <div class="res-stat">⭐ Puntos Logrados: <strong id="res-score">0</strong></div>
+                                <div class="res-stat">🧪 Nutrientes Ganados: <strong id="res-nutrients">+0</strong></div>
+                            </div>
+                            <p class="final-pedagogy-tip">
+                                <em>Tip de la Psicóloga:</em> Reconocer estas frases en el día a día te ayudará a saber exactamente cómo apoyar a tus amigos y familiares en su autocuidado.
+                            </p>
+                            <div class="gameover-actions">
+                                <button id="btn-replay-harvest" class="btn btn-secondary">Jugar de Nuevo</button>
+                                <button id="btn-apply-nutrients" class="btn btn-primary">Regar Jardín con Nutrientes 💦</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+
+        <!-- Pie de página con créditos didácticos -->
+        <footer class="app-footer">
+            <p>Hecho con ❤️ y rigor científico para explicar las <strong>Etapas del Cambio</strong> aplicadas a la Diabetes. Trabajo Didáctico Creativo • Máximo una Cuartilla Equivalente.</p>
+        </footer>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
