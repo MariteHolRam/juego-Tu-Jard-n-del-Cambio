@@ -10,7 +10,7 @@ const STAGES_DATA = {
         subtitle: "Aún no se percibe la necesidad de cambio.",
         emoji: "🕳️",
         sky: "url(#sky-precontemplation)",
-        description: "En esta fase, la persona con diabetes no es consciente del riesgo o prefiere no pensar en ello porque le genera negación o angustia. No tiene intención de cambiar sus hábitos alimenticios o de monitoreo en los próximos 6 meses.",
+        description: "En esta fase, la persona que vive con diabetes no es consciente del riesgo o prefiere no pensar en ello porque le genera negación o angustia. No tiene intención de cambiar sus hábitos alimenticios o de monitoreo en los próximos 6 meses.",
         example: "\"A mí no me pasa nada por comer este pastel. Mi abuelo tuvo diabetes y vivió 90 años comiendo de todo. Esos doctores exageran.\"",
         familySupport: "No presiones, no des sermones científicos ni regañes. Escucha activamente con empatía profunda. Valida su miedo o negación y hazle sentir que estás a su lado pase lo que pase, sin obligarle a cambiar."
     },
@@ -85,7 +85,7 @@ const STORY_SCENARIOS = [
                 type: "Ignorar",
                 typeClass: "indifferent",
                 text: "Pues sí, papá. Al final del día es tu cuerpo y tu salud. Si quieres seguir comiendo así de mal es tu decisión, nosotros ya te advertimos.",
-                feedback: "💤 <strong>Respuesta indiferente.</strong> Dejarle solo en esta fase no le ayuda a sentirse querido ni seguro. La diabetes requiere acompañamiento afectivo, no abandono.",
+                feedback: "💤 <strong>Respuesta indiferente.</strong> Dejarle solo en esta fase no le ayuda a sentirse querido ni seguro. Las personas que viven con diabetes requieren acompañamiento afectivo, no abandono.",
                 correct: false
             },
             {
